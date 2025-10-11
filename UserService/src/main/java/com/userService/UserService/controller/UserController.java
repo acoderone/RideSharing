@@ -1,5 +1,7 @@
 package com.userService.UserService.controller;
 
+import com.userService.UserService.dto.AuthRequestDTO;
+import com.userService.UserService.dto.AuthResponseDTO;
 import com.userService.UserService.dto.UserRequestDTO;
 import com.userService.UserService.dto.UserResponseDTO;
 import com.userService.UserService.service.UserService;
@@ -19,5 +21,10 @@ public class UserController {
     @PostMapping("/register")
     private ResponseEntity<UserResponseDTO>register(@RequestBody UserRequestDTO userDto){
         return ResponseEntity.ok(userService.registerUser(userDto));
+    }
+
+    @PostMapping("/login")
+    private ResponseEntity<AuthResponseDTO>login(@RequestBody AuthRequestDTO userDTO){
+        return ResponseEntity.ok(userService.login(userDTO));
     }
 }

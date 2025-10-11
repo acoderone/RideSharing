@@ -6,6 +6,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@Getter
 public class JwtService {
 
     @Value("${jwt.secret}")
@@ -60,6 +62,8 @@ public class JwtService {
         System.out.println("------------------------");
         return generatedToken;
     }
+
+
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
