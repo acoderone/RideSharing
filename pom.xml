@@ -10,7 +10,7 @@
 
     <modules>
         <module>UserService</module>
-
+        <module>DriverService</module>
     </modules>
 
     <dependencyManagement>
