@@ -1,9 +1,6 @@
 package com.Driver.DriverService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +16,9 @@ public class Trip {
     private String start;
     private String end;
     private Double price;
+    private String origin;
+    private String destination;
+    @ManyToOne
+    @JoinColumn(name = "rider_id")
+    private Rider rider;
 }

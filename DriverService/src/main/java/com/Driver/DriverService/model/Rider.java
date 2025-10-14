@@ -1,28 +1,28 @@
 package com.Driver.DriverService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Rider {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String email;
+    private String name;
     private String password;
     private String license;
-    private Status status;
-    private double latitude;
-    private double longitude;
+    @Enumerated(EnumType.STRING)
+    private Status status=Status.AVAILABLE;
+    private Double latitude;
+    private Double longitude;
+    @OneToMany(mappedBy = "rider",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Trip> trips;
 }
