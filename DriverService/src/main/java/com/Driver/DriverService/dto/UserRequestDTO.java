@@ -1,8 +1,5 @@
 package com.Driver.DriverService.dto;
 
-import com.Driver.DriverService.model.Status;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

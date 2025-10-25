@@ -22,4 +22,5 @@ public class User {
     private Long noOfRides;
     private double Latitude;
     private double Longitude;
+    private String phoneNumber;
 }
