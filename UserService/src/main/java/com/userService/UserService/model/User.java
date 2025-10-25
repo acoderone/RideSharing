@@ -20,7 +20,9 @@ public class User {
     private String email;
     private String password;
     private Long noOfRides;
-    private double Latitude;
-    private double Longitude;
+    private double Origin_Latitude;
+    private double Origin_Longitude;
     private String phoneNumber;
+    private double Drop_Latitude;
+    private double Drop_Longitude;
 }
