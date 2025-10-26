@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 public class RideRequestDTO {
-    private Long userID;
+
     private Double origin_latitude;
     private Double origin_longitude;
     private Double destination_latitude;
