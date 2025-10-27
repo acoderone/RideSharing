@@ -23,6 +23,5 @@ public class Rider {
     private Status status=Status.AVAILABLE;
     private Double latitude;
     private Double longitude;
-    @OneToMany(mappedBy = "rider",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Trip> trips;
+
 }
