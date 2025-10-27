@@ -27,6 +27,7 @@ public class RideService {
         ride.setRiderId(rideEvent.getRiderId());
         rideRepository.save(ride);
       kafkaTemplate.send(TOPIC,rideEvent);
+        System.out.println("RideEvent "+rideEvent.getRideId());
 
     }
 }

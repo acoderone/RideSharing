@@ -12,12 +12,14 @@ import org.springframework.stereotype.Component;
 public class RideRequestListener {
     @Autowired
     private RideService rideService;
-     private RiderAssignmentEvent riderAssignmentEvent;
+
+
     @KafkaListener(
             topics = "rideRequests",
             groupId = "Ride-service-group"
     )
     public void consume(RideRequestEvent event){
+         RiderAssignmentEvent riderAssignmentEvent=new RiderAssignmentEvent();
         riderAssignmentEvent.setRideId(event.getRideId());
         riderAssignmentEvent.setRequestedAt(event.getRequestedAt());
         riderAssignmentEvent.setRiderId(null);
@@ -26,7 +28,7 @@ public class RideRequestListener {
         riderAssignmentEvent.setDrop_Latitude(event.getDrop_Latitude());
         riderAssignmentEvent.setStatus(Status.PENDING);
         riderAssignmentEvent.setOrigin_Longitude(event.getOrigin_Longitude());
-
+        riderAssignmentEvent.setUserId(event.getUserId());
        rideService.assignRide(riderAssignmentEvent);
         System.out.println("Received ride request event: " + event.getUserId());
 
