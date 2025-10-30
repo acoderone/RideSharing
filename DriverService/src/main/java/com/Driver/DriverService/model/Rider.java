@@ -21,7 +21,6 @@ public class Rider {
     private String license;
     @Enumerated(EnumType.STRING)
     private Status status=Status.AVAILABLE;
-    private Double latitude;
-    private Double longitude;
+
 
 }
