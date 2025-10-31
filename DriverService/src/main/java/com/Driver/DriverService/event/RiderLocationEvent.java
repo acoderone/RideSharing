@@ -1,10 +1,14 @@
 package com.Driver.DriverService.event;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RiderLocationEvent {
-    private Long driverId;
+    private String driverId;
     private double latitude;
     private double longitude;
 }

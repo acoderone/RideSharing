@@ -1,4 +1,6 @@
-package com.rideService.RideService.config;
+package com.Driver.DriverService.config;
+
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,4 +21,5 @@ public class RedisConfig {
         return new StringRedisTemplate(redisConnectionFactory);
     }
 }
+
 
