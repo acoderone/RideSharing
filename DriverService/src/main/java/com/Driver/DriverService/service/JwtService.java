@@ -47,7 +47,7 @@ public class JwtService {
 
         String generatedToken = Jwts.builder()
                 .setSubject(rider.getEmail())
-                .claim("role", "User")
+                .claim("role", "RIDER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
@@ -68,15 +68,15 @@ public class JwtService {
         return email.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         System.out.println("--- Token Validation (Extracting Claims) ---");
         System.out.println("Token received (first 50 chars): " + token.substring(0, Math.min(token.length(), 50)) + "...");
         // Confirm the secret key used at validation time

@@ -18,7 +18,6 @@ public class RiderRequestListener {
             (topics="Ride-Assignment",
             groupId = "Ride-Service-group")
     public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> consume(RiderRequestEvent event){
-        List<GeoResult<RedisGeoCommands.GeoLocation<String>>> riders=riderLocationService.findNearByDrivers(event.getOrigin_Latitude(), event.getOrigin_Longitude(), 3);
-        return riders;
+        return riderLocationService.findNearByDrivers(event.getOrigin_Latitude(), event.getOrigin_Longitude());
     }
 }
