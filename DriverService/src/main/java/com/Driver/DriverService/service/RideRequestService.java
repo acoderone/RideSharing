@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 @Service
 public class RideRequestService {
-private static String TOPIC="Rider_List";
+private static final String TOPIC="Rider_List";
     @Autowired
     private KafkaTemplate<String,List<RiderLocationEvent>>kafkaTemplate;
 

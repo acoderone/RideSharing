@@ -27,7 +27,7 @@ public class RiderLocationService {
     /**
      * Finds nearby drivers within a 2 km radius of the given coordinates.
      */
-    public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> findNearByDrivers(double latitude, double longitude) {
+    public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> findNearByDrivers(double longitude, double latitude) {
         // ⚠️ FIXED: Redis expects longitude first, not latitude
         Point point = new Point(longitude, latitude);
         Circle area = new Circle(point, new Distance(2, Metrics.KILOMETERS));

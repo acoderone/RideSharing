@@ -16,8 +16,8 @@ public class RiderRequestListener {
     private RiderLocationService riderLocationService;
     @KafkaListener
             (topics="Ride-Assignment",
-            groupId = "Ride-Service-group")
+                    groupId = "Ride-Service-group")
     public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> consume(RiderRequestEvent event){
-        return riderLocationService.findNearByDrivers(event.getOrigin_Latitude(), event.getOrigin_Longitude());
+        return riderLocationService.findNearByDrivers(event.getOrigin_Longitude(), event.getOrigin_Latitude());
     }
 }
