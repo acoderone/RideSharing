@@ -1,7 +1,7 @@
-package com.userService.UserService.config;
+package com.rideService.RideService.config;
 
 
-import com.userService.UserService.event.RideRequestEvent;
+import com.rideService.RideService.event.RiderLocationEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +13,14 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Configuration
 @EnableKafka
-public class KafkaProducerConfig {
+@Configuration
+public class KafkaProducerNearbyDrivers {
     @Bean
-    public ProducerFactory<String,RideRequestEvent>producerFactory(){
+    public ProducerFactory<String, List<RiderLocationEvent>> producerFactory(){
         Map<String,Object> configProps=new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -28,7 +29,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, RideRequestEvent>kafkaTemplate(){
+    public KafkaTemplate<String,List<RiderLocationEvent>>kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 }

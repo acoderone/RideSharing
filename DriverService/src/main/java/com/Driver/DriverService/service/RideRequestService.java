@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
-public class RideRequestService {
+public class  RideRequestService {
 private static final String TOPIC="Rider_List";
     @Autowired
     private KafkaTemplate<String,List<RiderLocationEvent>>kafkaTemplate;

@@ -16,19 +16,20 @@ public class RiderLocationService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    /**
-     * Adds or updates a driver's current location in Redis GEO store.
-     * Redis expects longitude first, then latitude.
-     */
-    public void addDriverTemplate(String driverId, double longitude, double latitude) {
+    public void addDriverTemplate(String driverId, double longitude, double latitude,String status) {
         stringRedisTemplate.opsForGeo().add(KEY, new Point(longitude, latitude), driverId);
+        stringRedisTemplate.opsForHash().put("driver"+driverId+"META","status",status);
     }
 
-    /**
-     * Finds nearby drivers within a 2 km radius of the given coordinates.
-     */
+
+    public void updateDriverStatus(double driverId,String status){
+      stringRedisTemplate.opsForHash().put("driver"+driverId+"META","status",status);
+      if("offline".equalsIgnoreCase(status)){
+          stringRedisTemplate.opsForZSet().remove(KEY,driverId);
+      }
+    }
     public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> findNearByDrivers(double longitude, double latitude) {
-        // ⚠️ FIXED: Redis expects longitude first, not latitude
+
         Point point = new Point(longitude, latitude);
         Circle area = new Circle(point, new Distance(2, Metrics.KILOMETERS));
 
@@ -46,12 +47,14 @@ public class RiderLocationService {
             return List.of(); // return empty list instead of null
         }
 
-        return results.getContent();
+        return results.getContent().stream().filter(e->{
+            String driverId=e.getContent().getName();
+            Object status=stringRedisTemplate.opsForHash().get("driver"+driverId+"META","status");
+            return "available".equalsIgnoreCase(String.valueOf(status));
+        }).toList();
     }
 
-    /**
-     * Retrieves the last known location of a specific driver.
-     */
+
     public Point getDriverLocation(String driverId) {
         List<Point> points = stringRedisTemplate.opsForGeo().position(KEY, driverId);
         return (points != null && !points.isEmpty()) ? points.get(0) : null;

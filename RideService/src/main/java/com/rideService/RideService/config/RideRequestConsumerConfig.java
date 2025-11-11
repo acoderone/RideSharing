@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-public class KafkaConsumerConfig {
+public class RideRequestConsumerConfig {
 @Bean
     public ConsumerFactory<String, RideRequestEvent> consumerFactory(){
     Map<String,Object> configProps=new HashMap<>();
