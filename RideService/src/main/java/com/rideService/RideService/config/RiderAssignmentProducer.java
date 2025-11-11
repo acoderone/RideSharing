@@ -1,7 +1,7 @@
 package com.rideService.RideService.config;
 
-
-import com.rideService.RideService.event.RiderLocationEvent;
+import com.rideService.RideService.event.RideRequestEvent;
+import com.rideService.RideService.event.RiderAssignmentEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -13,23 +13,22 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-@EnableKafka
 @Configuration
-public class KafkaProducerNearbyDrivers {
+@EnableKafka
+public class RiderAssignmentProducer {
     @Bean
-    public ProducerFactory<String, List<RiderLocationEvent>> producerFactory(){
-        Map<String,Object> configProps=new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
+    public ProducerFactory<String, RiderAssignmentEvent> producerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public KafkaTemplate<String,List<RiderLocationEvent>>kafkaTemplate(){
+    public KafkaTemplate<String, RiderAssignmentEvent> kafkaTemplate1(){
         return new KafkaTemplate<>(producerFactory());
     }
+
 }

@@ -1,5 +1,6 @@
 package com.rideService.RideService.config;
 
+import com.rideService.RideService.event.RideRequestEvent;
 import com.rideService.RideService.event.RiderAssignmentEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -18,7 +19,7 @@ import java.util.Map;
 @EnableKafka
 public class KafkaProducerConfig {
 @Bean
-    public ProducerFactory<String, RiderAssignmentEvent>producerFactory(){
+    public ProducerFactory<String, RideRequestEvent>producerFactory(){
     Map<String,Object> configProps=new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
     configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -27,7 +28,7 @@ public class KafkaProducerConfig {
 }
 
 @Bean
-    public KafkaTemplate<String, RiderAssignmentEvent>kafkaTemplate(){
+    public KafkaTemplate<String, RideRequestEvent>kafkaTemplate(){
     return new KafkaTemplate<>(producerFactory());
 }
 }

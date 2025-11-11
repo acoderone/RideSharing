@@ -18,9 +18,9 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-public class NearbyDriversConsumerConfig {
+public class NearbyDriverConsumerConfig {
     @Bean
-    public ConsumerFactory<String, List<RiderLocationEvent>>consumerFactory(){
+    public ConsumerFactory<String, RiderLocationEvent>consumerFactory1(){
         Map<String,Object>configProps=new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
         configProps.put(ConsumerConfig.GROUP_ID_CONFIG,"group_id");
@@ -30,9 +30,9 @@ public class NearbyDriversConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String,List<RiderLocationEvent>>kafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String,List<RiderLocationEvent>>factory=new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+    public ConcurrentKafkaListenerContainerFactory<String,RiderLocationEvent>kafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String,RiderLocationEvent>factory=new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory1());
         return factory;
     }
 

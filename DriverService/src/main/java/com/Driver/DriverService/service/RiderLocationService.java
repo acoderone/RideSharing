@@ -1,5 +1,6 @@
 package com.Driver.DriverService.service;
 
+import com.Driver.DriverService.event.RiderLocationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
@@ -18,7 +19,7 @@ public class RiderLocationService {
 
     public void addDriverTemplate(String driverId, double longitude, double latitude,String status) {
         stringRedisTemplate.opsForGeo().add(KEY, new Point(longitude, latitude), driverId);
-        stringRedisTemplate.opsForHash().put("driver"+driverId+"META","status",status);
+        stringRedisTemplate.opsForHash().put("driver"+driverId+":META","status",status);
     }
 
 
@@ -28,7 +29,9 @@ public class RiderLocationService {
           stringRedisTemplate.opsForZSet().remove(KEY,driverId);
       }
     }
-    public List<GeoResult<RedisGeoCommands.GeoLocation<String>>> findNearByDrivers(double longitude, double latitude) {
+
+
+    public RiderLocationEvent findDriver(String rideId,double longitude, double latitude) {
 
         Point point = new Point(longitude, latitude);
         Circle area = new Circle(point, new Distance(2, Metrics.KILOMETERS));
@@ -43,15 +46,19 @@ public class RiderLocationService {
                                 .sortAscending()
                 );
 
-        if (results == null) {
-            return List.of(); // return empty list instead of null
-        }
 
-        return results.getContent().stream().filter(e->{
+        assert results != null;
+        List<GeoResult<RedisGeoCommands.GeoLocation<String>>>riders= results.getContent().stream().filter(e->{
             String driverId=e.getContent().getName();
-            Object status=stringRedisTemplate.opsForHash().get("driver"+driverId+"META","status");
+            Object status=stringRedisTemplate.opsForHash().get("driver"+driverId+":META","status");
             return "available".equalsIgnoreCase(String.valueOf(status));
         }).toList();
+        GeoResult<RedisGeoCommands.GeoLocation<String>>assignedDriver=riders.get(0);
+        String driverId=assignedDriver.getContent().getName();
+        stringRedisTemplate.opsForHash().put("driver"+driverId+":META","status","busy");
+        stringRedisTemplate.opsForZSet().remove(KEY,driverId);
+        return new RiderLocationEvent(rideId,driverId,assignedDriver.getContent().getPoint().getX(),assignedDriver.getContent().getPoint().getY());
+
     }
 
 

@@ -1,9 +1,6 @@
 package com.Driver.DriverService.service;
 
-import com.Driver.DriverService.dto.AuthRequestDTO;
-import com.Driver.DriverService.dto.AuthResponseDTO;
-import com.Driver.DriverService.dto.UserRequestDTO;
-import com.Driver.DriverService.dto.UserResponseDTO;
+import com.Driver.DriverService.dto.*;
 import com.Driver.DriverService.model.Rider;
 import com.Driver.DriverService.repository.RiderRepository;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +19,8 @@ import java.util.Optional;
 @Service
 public class RiderService {
 
+    @Autowired
+    private RiderLocationService riderLocationService;
     @Autowired
     private RiderRepository riderRepository;
     @Autowired
@@ -74,6 +73,7 @@ public class RiderService {
                 .getBody()
                 .get("role", String.class);
         System.out.println(role);
+        riderLocationService.addDriverTemplate(String.valueOf(user.get().getId()),dto.getLongitude(),dto.getLatitude(),"Available");
         return new AuthResponseDTO(token);
     }
 

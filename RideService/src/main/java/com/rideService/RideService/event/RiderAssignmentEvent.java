@@ -13,5 +13,4 @@ public class RiderAssignmentEvent {
     private String rideId;
     private String requestedAt;
     private Long riderId;
-    private Status status;
 }
