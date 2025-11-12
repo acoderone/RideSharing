@@ -1,8 +1,13 @@
 package com.Driver.DriverService.event;
 
-import lombok.Data;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+
 public class RiderRequestEvent {
 
         private Long userId;

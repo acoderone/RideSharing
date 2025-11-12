@@ -1,12 +1,13 @@
 package com.rideService.RideService.event;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-
+@Component
 public class RideRequestEvent {
     private Long userId;
     private double Origin_Latitude;

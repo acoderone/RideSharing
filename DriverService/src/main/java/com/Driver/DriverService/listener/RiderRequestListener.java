@@ -19,11 +19,10 @@ public class RiderRequestListener {
     @Autowired
     private RiderLocationService riderLocationService;
 
-    @KafkaListener(topics = "Ride-Assignment", groupId = "Ride-Service-group",
-            containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "Ride-Assignment", groupId = "Ride-service-group")
     public void consume(RiderRequestEvent event) {
         System.out.println("📥 Received ride request: " + event);
-
+        System.out.println(event.getOrigin_Longitude());
         // Find nearest driver
         RiderLocationEvent rider = riderLocationService.findDriver(
                 event.getRideId(),

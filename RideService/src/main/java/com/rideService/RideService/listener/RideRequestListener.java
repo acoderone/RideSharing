@@ -20,26 +20,18 @@ public class RideRequestListener {
 
     @KafkaListener(
             topics = "rideRequests",
-            groupId = "Ride-service-group"
+            groupId = "Ride-service-group",
+            containerFactory = "rideRequestKafkaListenerContainerFactory"
     )
     public void consume(RideRequestEvent event){
         Ride ride=new Ride();
-        System.out.println("Hii");
         ride.setRideId(event.getRideId());
-        System.out.println("Hii");
         ride.setRidePrice(1000.0);
-        System.out.println("Hii");
         ride.setStatus(Status.ACCEPTED);
-        System.out.println("Hii");
         ride.setPickupLongitude(event.getOrigin_Longitude());
-        System.out.println("Hii");
         ride.setPickupLatitude(event.getOrigin_Latitude());
-        System.out.println("Hii");
-
-        System.out.println("Hii");
         ride.setDestinationLatitude(event.getDrop_Latitude());
         ride.setUserId(event.getUserId());
-        System.out.println("Hii");
         try{
             rideRepository.save(ride);
         }

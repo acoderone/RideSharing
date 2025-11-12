@@ -24,15 +24,16 @@ public class RiderAssignmentListener {
 
 @Autowired
     KafkaTemplate<String,RiderAssignmentEvent>kafkaTemplate;
-    @KafkaListener(topics = "rider")
+    @KafkaListener(topics = "rider" , groupId = "Ride-service-group", containerFactory = "nearbyDriverKafkaListenerContainerFactory")
 public RiderAssignmentEvent consume(RiderLocationEvent event){
-    RiderLocationEvent rider=new RiderLocationEvent();
-    System.out.println(event.getDriverId());
-    Optional<Ride> ride=rideRepository.findById(Long.valueOf(event.getRideId()));
+
+    System.out.println("DriverID"+event.getDriverId());
+        System.out.println("RideId "+event.getRideId());
+    Optional<Ride> ride=rideRepository.findByRideId(event.getRideId());
     if(ride.isEmpty()){
         throw new RuntimeException("Ride not found");
     }
-    ride.get().setRiderId(Long.valueOf(event.getRideId()));
+    ride.get().setRiderId(Long.valueOf(event.getDriverId()));
     rideRepository.save(ride.get());
     RiderAssignmentEvent riderAssignmentEvent=new RiderAssignmentEvent();
     riderAssignmentEvent.setUserId(ride.get().getUserId());
@@ -40,6 +41,7 @@ public RiderAssignmentEvent consume(RiderLocationEvent event){
     riderAssignmentEvent.setOrigin_Longitude(ride.get().getPickupLongitude());
     riderAssignmentEvent.setOrigin_Latitude(ride.get().getPickupLatitude());
     riderAssignmentEvent.setDrop_Latitude(ride.get().getDestinationLatitude());
+    riderAssignmentEvent.setDrop_Longitude(ride.get().getDestinationLongitude());
     riderAssignmentEvent.setRequestedAt(String.valueOf(new Date()));
     kafkaTemplate.send(TOPIC,riderAssignmentEvent);
     System.out.println(riderAssignmentEvent);

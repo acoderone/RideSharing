@@ -33,7 +33,7 @@ public class RideRequestConsumerConfig {
 
 }
 
-@Bean
+@Bean(name = "rideRequestKafkaListenerContainerFactory")
     public ConcurrentKafkaListenerContainerFactory<String,RideRequestEvent>kafkaListenerContainerFactory(){
     ConcurrentKafkaListenerContainerFactory<String,RideRequestEvent>factory=new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(consumerFactory());
