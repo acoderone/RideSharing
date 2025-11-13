@@ -31,6 +31,7 @@ public class RideRequestListener {
         ride.setPickupLongitude(event.getOrigin_Longitude());
         ride.setPickupLatitude(event.getOrigin_Latitude());
         ride.setDestinationLatitude(event.getDrop_Latitude());
+        ride.setDestinationLongitude(event.getDrop_Longitude());
         ride.setUserId(event.getUserId());
         try{
             rideRepository.save(ride);

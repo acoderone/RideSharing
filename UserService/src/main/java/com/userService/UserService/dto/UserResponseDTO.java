@@ -10,5 +10,5 @@ import lombok.*;
 public class UserResponseDTO {
     private String email;
     private String name;
-    private Long noOfTrips;
+
 }

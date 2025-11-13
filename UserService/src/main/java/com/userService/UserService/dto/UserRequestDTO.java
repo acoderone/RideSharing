@@ -8,8 +8,8 @@ import lombok.*;
 @Setter
 @Data
 public class UserRequestDTO {
-    private String email;
     private String name;
-    private Long noOfTrips;
+    private String email;
     private String password;
+    private String phoneNumber;
 }

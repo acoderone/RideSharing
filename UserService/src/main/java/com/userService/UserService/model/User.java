@@ -1,28 +1,24 @@
 package com.userService.UserService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Getter
-@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(unique = true, nullable = false)
     private String email;
+    @JsonIgnore
+    @Column(nullable = false)
     private String password;
-    private Long noOfRides;
-    private double Origin_Latitude;
-    private double Origin_Longitude;
+    @Column(nullable = false)
     private String phoneNumber;
-    private double Drop_Latitude;
-    private double Drop_Longitude;
 }

@@ -10,12 +10,13 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
 @Component
 public class RiderAssignmentListener {
-    private static String TOPIC="RIDE";
+    private static final String TOPIC="RIDE";
     @Autowired
     private RideRepository rideRepository;
 
@@ -42,7 +43,8 @@ public RiderAssignmentEvent consume(RiderLocationEvent event){
     riderAssignmentEvent.setOrigin_Latitude(ride.get().getPickupLatitude());
     riderAssignmentEvent.setDrop_Latitude(ride.get().getDestinationLatitude());
     riderAssignmentEvent.setDrop_Longitude(ride.get().getDestinationLongitude());
-    riderAssignmentEvent.setRequestedAt(String.valueOf(new Date()));
+    riderAssignmentEvent.setRequestedAt(LocalDateTime.now());
+    riderAssignmentEvent.setRidePrice(ride.get().getRidePrice());
     kafkaTemplate.send(TOPIC,riderAssignmentEvent);
     System.out.println(riderAssignmentEvent);
     return riderAssignmentEvent;

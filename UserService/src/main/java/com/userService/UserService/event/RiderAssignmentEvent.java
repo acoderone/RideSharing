@@ -1,5 +1,4 @@
-package com.rideService.RideService.event;
-
+package com.userService.UserService.event;
 import lombok.Data;
 
 import java.time.LocalDateTime;

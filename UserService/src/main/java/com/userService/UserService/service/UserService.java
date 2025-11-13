@@ -41,25 +41,30 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     @Value("${jwt.secret}")
     private String secretKeyString;
-    public UserResponseDTO registerUser(UserRequestDTO userDTO){
+    public UserResponseDTO registerUser(UserRequestDTO userDTO) {
 
-        Optional<User> find_User=userRepository.findByEmail(userDTO.getEmail());
-        System.out.println(userDTO.getEmail());
-        if(find_User.isPresent()){
+        Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+        if (existingUser.isPresent()) {
             throw new RuntimeException("User is already Present");
         }
-        User user=new User();
+
+        User user = new User();
         user.setEmail(userDTO.getEmail());
         user.setName(userDTO.getName());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setNoOfRides(0L);
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+
         userRepository.save(user);
-        UserResponseDTO userResponseDTO=new UserResponseDTO();
-        userResponseDTO.setEmail(user.getEmail());
-        userResponseDTO.setName(user.getName());
-        userResponseDTO.setNoOfTrips(user.getNoOfRides());
-        return userResponseDTO;
+
+        UserResponseDTO response = new UserResponseDTO();
+        response.setEmail(user.getEmail());
+        response.setName(user.getName());
+
+
+
+        return response;
     }
+
 
 
     public AuthResponseDTO login(AuthRequestDTO userDTO){
