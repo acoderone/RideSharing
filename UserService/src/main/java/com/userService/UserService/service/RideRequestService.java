@@ -2,15 +2,16 @@ package com.userService.UserService.service;
 
 import com.userService.UserService.dto.RideRequestDTO;
 import com.userService.UserService.event.RideRequestEvent;
+import com.userService.UserService.event.RiderAssignmentEvent;
+import com.userService.UserService.model.Rides;
 import com.userService.UserService.model.User;
+import com.userService.UserService.repository.RidesRepository;
 import com.userService.UserService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,8 @@ public class RideRequestService {
     private static final String TOPIC="rideRequests";
 
     @Autowired
+    private RidesRepository ridesRepository;
+    @Autowired
     public RideRequestService(KafkaTemplate<String,RideRequestEvent>kafkaTemplate,UserRepository userRepository,JwtService jwtService){
         this.kafkaTemplate=kafkaTemplate;
         this.userRepository=userRepository;
@@ -29,6 +32,23 @@ public class RideRequestService {
     }
 
 
+    @KafkaListener(topics = "RIDE",
+            groupId = "Ride-service-group",
+            containerFactory = "riderAssignmentKafkaListenerConsumerFactory")
+    public RiderAssignmentEvent consumeRiderEvent(RiderAssignmentEvent event){
+        Rides ride=new Rides();
+        ride.setRequestedAt(event.getRequestedAt());
+        ride.setRiderId(event.getRiderId());
+        ride.setRideId(event.getRideId());
+        ride.setPickupLatitude(event.getOrigin_Latitude());
+        ride.setPickupLongitude(event.getOrigin_Longitude());
+        ride.setDestinationLongitude(event.getDrop_Longitude());
+        ride.setDestinationLatitude(event.getDrop_Latitude());
+        ride.setPrice(event.getRidePrice());
+        ridesRepository.save(ride);
+        return event;
+
+    }
     public RideRequestEvent createRideRequest(String email, RideRequestDTO dto){
 
         User user = userRepository.findByEmail(email)
