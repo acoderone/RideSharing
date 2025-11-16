@@ -28,7 +28,7 @@ public class Ride {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(nullable = false)
+   @Column
     private Long riderId;
 
     @Column(nullable = false)
