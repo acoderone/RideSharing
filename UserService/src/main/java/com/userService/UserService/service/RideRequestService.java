@@ -32,23 +32,7 @@ public class RideRequestService {
     }
 
 
-    @KafkaListener(topics = "RIDE",
-            groupId = "Ride-service-group",
-            containerFactory = "riderAssignmentKafkaListenerConsumerFactory")
-    public RiderAssignmentEvent consumeRiderEvent(RiderAssignmentEvent event){
-        Rides ride=new Rides();
-        ride.setRequestedAt(event.getRequestedAt());
-        ride.setRiderId(event.getRiderId());
-        ride.setRideId(event.getRideId());
-        ride.setPickupLatitude(event.getOrigin_Latitude());
-        ride.setPickupLongitude(event.getOrigin_Longitude());
-        ride.setDestinationLongitude(event.getDrop_Longitude());
-        ride.setDestinationLatitude(event.getDrop_Latitude());
-        ride.setPrice(event.getRidePrice());
-        ridesRepository.save(ride);
-        return event;
 
-    }
     public RideRequestEvent createRideRequest(String email, RideRequestDTO dto){
 
         User user = userRepository.findByEmail(email)

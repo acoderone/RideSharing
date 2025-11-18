@@ -29,7 +29,7 @@ public class Ride {
     private Long userId;
 
    @Column
-    private Long riderId;
+    private String riderId;
 
     @Column(nullable = false)
     private Double ridePrice;

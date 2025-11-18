@@ -34,8 +34,8 @@ public RiderAssignmentEvent consume(RiderLocationEvent event){
     if(ride.isEmpty()){
         throw new RuntimeException("Ride not found");
     }
-    ride.get().setRiderId(Long.valueOf(event.getDriverId()));
-    rideRepository.save(ride.get());
+    ride.get().setRiderId(event.getDriverId());
+    System.out.println("Ride Id: "+ride.get().getRideId());
     RiderAssignmentEvent riderAssignmentEvent=new RiderAssignmentEvent();
     riderAssignmentEvent.setUserId(ride.get().getUserId());
     riderAssignmentEvent.setRiderId(ride.get().getRiderId());
@@ -45,7 +45,9 @@ public RiderAssignmentEvent consume(RiderLocationEvent event){
     riderAssignmentEvent.setDrop_Longitude(ride.get().getDestinationLongitude());
     riderAssignmentEvent.setRequestedAt(LocalDateTime.now());
     riderAssignmentEvent.setRidePrice(ride.get().getRidePrice());
+    riderAssignmentEvent.setRideId(ride.get().getRideId());
     kafkaTemplate.send(TOPIC,riderAssignmentEvent);
+        rideRepository.save(ride.get());
     System.out.println(riderAssignmentEvent);
     return riderAssignmentEvent;
 }

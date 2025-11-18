@@ -16,7 +16,9 @@ public class RiderAssignmentListener {
 
     @KafkaListener(topics = "RIDE",groupId = "Ride-service-group",containerFactory = "riderAssignmentKafkaListenerConsumerFactory")
     public void consumer(RiderAssignmentEvent riderAssignmentEvent){
+        System.out.println("RiderId: "+riderAssignmentEvent.getUserId());
         Rides rides=new Rides();
+        rides.setUserId(riderAssignmentEvent.getUserId());
         rides.setRideId(riderAssignmentEvent.getRideId());
         rides.setRiderId(riderAssignmentEvent.getRiderId());
         rides.setPrice(riderAssignmentEvent.getRidePrice());

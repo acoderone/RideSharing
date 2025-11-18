@@ -1,9 +1,6 @@
 package com.userService.UserService.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +14,13 @@ import java.time.LocalDateTime;
 @Table(name = "Ride_Table")
 public class Rides {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false)
+    private Long Id;
     @Column(unique = true,nullable = false)
     private String rideId;
     @Column(nullable = false)
-    private Long riderId;
+    private String riderId;
     @Column(nullable = false)
     private Long userId;
     @Column(nullable = false)

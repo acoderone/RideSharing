@@ -12,6 +12,6 @@ public class RiderAssignmentEvent {
     private double Drop_Longitude;
     private String rideId;
     private LocalDateTime requestedAt;
-    private Long riderId;
+    private String riderId;
     private double ridePrice;
 }
