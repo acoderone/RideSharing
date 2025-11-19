@@ -26,4 +26,6 @@ public class RideController {
         String email=principal.getName();
          return ResponseEntity.ok().body(service.createRideRequest(email,requestDTO));
     }
+
+    
 }
